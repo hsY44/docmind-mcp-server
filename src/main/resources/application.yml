@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: docmind-mcp-server
+
+  profiles:
+    active: local
+
+  ai:
+    mcp:
+      server:
+        name: docmind-mcp-server
+        version: 0.0.1
+        protocol: STREAMABLE
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
