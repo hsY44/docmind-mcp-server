@@ -21,7 +21,7 @@ Working task list. Claude: mark items `[x]` when done, add discovered tasks unde
 - [x] Verify tools with MCP Inspector (verified end-to-end via curl JSON-RPC; Inspector GUI optional)
 
 ## Phase 3 — Integration & Polish
-- [ ] Connect from a real MCP client (Claude Desktop or docmind-rag) end-to-end
+- [x] Connect from a real MCP client (Claude Desktop or docmind-rag) end-to-end (verified via Claude Desktop config + live tool call)
 - [x] Error handling: tool-level failures return useful messages to the LLM
 - [x] Seed data script for demo
 - [x] README.md (architecture diagram, setup, tool docs, demo GIF)
