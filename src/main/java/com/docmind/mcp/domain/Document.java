@@ -26,7 +26,7 @@ public class Document {
 	@Column(nullable = false, columnDefinition = "TEXT")
 	private String content;
 
-	private String tags; // comma-separated, nullable
+	private String tags; // 콤마로 구분, null 허용
 
 	@Column(nullable = false, updatable = false)
 	private LocalDateTime createdAt;

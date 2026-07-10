@@ -19,8 +19,8 @@ public class DocumentTools {
 
 	private final DocumentService service;
 
-	// ponytail: single try/catch for all four tools so no exception crosses the MCP boundary;
-	// message stays generic on purpose (don't leak DB internals to the LLM), real cause is logged.
+	// ponytail: 4개 tool 전체에 대해 try/catch 하나로 처리해서 예외가 MCP 경계를 넘지 않게 함;
+	// 메시지는 의도적으로 일반적으로 유지(DB 내부 정보를 LLM에 노출하지 않기 위함), 실제 원인은 로그에 기록.
 	private Object run(String action, Supplier<Object> body) {
 		try {
 			return body.get();
@@ -30,8 +30,8 @@ public class DocumentTools {
 		}
 	}
 
-	// ponytail: return type is Object so a tool can hand back structured data OR a plain
-	// message the LLM can act on — the spec forbids throwing across the MCP boundary.
+	// ponytail: 반환 타입이 Object인 이유는 tool이 구조화된 데이터 또는 LLM이 처리할 수 있는
+	// 단순 메시지를 반환할 수 있게 하기 위함 — 스펙상 MCP 경계 너머로 예외를 던지는 건 금지됨.
 
 	@Tool(description = "Search documents by keyword against title and content (case-insensitive). "
 			+ "Returns matches with a short snippet around the match, not full content.")

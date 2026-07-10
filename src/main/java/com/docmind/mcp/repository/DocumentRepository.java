@@ -10,12 +10,12 @@ import com.docmind.mcp.domain.Document;
 
 public interface DocumentRepository extends JpaRepository<Document, Long> {
 
-	// Case-insensitive keyword search over title + content (LIKE/ILIKE via ContainingIgnoreCase).
-	// Pageable applies the limit; no count query is run.
+	// 제목+내용에 대해 대소문자 구분 없이 키워드 검색 (ContainingIgnoreCase로 LIKE/ILIKE 처리).
+	// Pageable로 limit 적용, count 쿼리는 실행 안 함.
 	List<Document> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(
 			String title, String content, Pageable pageable);
 
-	// ponytail: substring match on the comma-separated tags column, not true exact-tag match
-	// (tag "java" would match "javascript"). Upgrade to FIND_IN_SET / a tags join table if that bites.
+	// ponytail: 콤마로 구분된 tags 컬럼에 대한 부분 문자열 매치, 완전한 태그 일치가 아님
+	// (태그 "java"가 "javascript"에도 매치됨). 문제 되면 FIND_IN_SET이나 태그 조인 테이블로 업그레이드.
 	Page<Document> findByTagsContainingIgnoreCase(String tag, Pageable pageable);
 }

@@ -60,7 +60,7 @@ public class DocumentService {
 		return Math.min(v, max);
 	}
 
-	// ponytail: ±60-char window around the first case-insensitive match; plenty of context for an LLM
+	// ponytail: 첫 대소문자 무관 매치 기준 ±60자 범위; LLM에게 충분한 맥락 제공
 	static String snippet(String content, String keyword) {
 		int i = content.toLowerCase().indexOf(keyword.toLowerCase());
 		if (i < 0) {
