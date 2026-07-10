@@ -10,6 +10,9 @@ build/
 ### Local secrets ###
 application-local.yml
 
+### Review logs (local only) ###
+.claude/reviews/
+
 ### STS ###
 .apt_generated
 .classpath

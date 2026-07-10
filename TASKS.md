@@ -22,8 +22,8 @@ Working task list. Claude: mark items `[x]` when done, add discovered tasks unde
 
 ## Phase 3 — Integration & Polish
 - [ ] Connect from a real MCP client (Claude Desktop or docmind-rag) end-to-end
-- [ ] Error handling: tool-level failures return useful messages to the LLM
-- [ ] Seed data script for demo
+- [x] Error handling: tool-level failures return useful messages to the LLM
+- [x] Seed data script for demo
 - [ ] README.md (architecture diagram, setup, tool docs, demo GIF)
 
 ## Backlog (not now)
