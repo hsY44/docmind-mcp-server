@@ -4,16 +4,31 @@ import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
 
+import java.util.function.Supplier;
+
 import com.docmind.mcp.service.DocumentService;
 import com.docmind.mcp.service.DocumentService.DocumentDetail;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class DocumentTools {
 
 	private final DocumentService service;
+
+	// ponytail: single try/catch for all four tools so no exception crosses the MCP boundary;
+	// message stays generic on purpose (don't leak DB internals to the LLM), real cause is logged.
+	private Object run(String action, Supplier<Object> body) {
+		try {
+			return body.get();
+		} catch (Exception e) {
+			log.error("Tool '{}' failed", action, e);
+			return "Could not complete '" + action + "' due to a server error.";
+		}
+	}
 
 	// ponytail: return type is Object so a tool can hand back structured data OR a plain
 	// message the LLM can act on — the spec forbids throwing across the MCP boundary.
@@ -26,14 +41,18 @@ public class DocumentTools {
 		if (keyword == null || keyword.isBlank()) {
 			return "keyword is required.";
 		}
-		var results = service.search(keyword, limit == null ? 10 : limit);
-		return results.isEmpty() ? "No documents matched." : results;
+		return run("searchDocuments", () -> {
+			var results = service.search(keyword, limit == null ? 10 : limit);
+			return results.isEmpty() ? "No documents matched." : results;
+		});
 	}
 
 	@Tool(description = "Get a single document by id, including its full content.")
 	Object getDocument(@ToolParam(description = "Document id") Long id) {
-		DocumentDetail doc = service.get(id);
-		return doc != null ? doc : "No document found with id " + id;
+		return run("getDocument", () -> {
+			DocumentDetail doc = service.get(id);
+			return doc != null ? doc : "No document found with id " + id;
+		});
 	}
 
 	@Tool(description = "List documents, optionally filtered by tag, with pagination. Never returns content.")
@@ -41,7 +60,7 @@ public class DocumentTools {
 			@ToolParam(required = false, description = "Tag to filter by") String tag,
 			@ToolParam(required = false, description = "Page number, default 0") Integer page,
 			@ToolParam(required = false, description = "Page size, default 20, max 50") Integer size) {
-		return service.list(tag, page == null ? 0 : page, size == null ? 20 : size);
+		return run("listDocuments", () -> service.list(tag, page == null ? 0 : page, size == null ? 20 : size));
 	}
 
 	@Tool(description = "Save a new document. Title max 200 chars, content required. Returns the new id and title.")
@@ -58,6 +77,6 @@ public class DocumentTools {
 		if (content == null || content.isBlank()) {
 			return "content is required.";
 		}
-		return service.save(title, content, tags);
+		return run("saveDocument", () -> service.save(title, content, tags));
 	}
 }
