@@ -24,7 +24,7 @@ Working task list. Claude: mark items `[x]` when done, add discovered tasks unde
 - [ ] Connect from a real MCP client (Claude Desktop or docmind-rag) end-to-end
 - [x] Error handling: tool-level failures return useful messages to the LLM
 - [x] Seed data script for demo
-- [ ] README.md (architecture diagram, setup, tool docs, demo GIF)
+- [x] README.md (architecture diagram, setup, tool docs, demo GIF)
 
 ## Backlog (not now)
 - `createdAt` serializes to LLM as an int array `[2026,7,9,...]` not an ISO string — configure Jackson JavaTimeModule / WRITE_DATES_AS_TIMESTAMPS=false for the MCP tool ObjectMapper (Phase 3 polish)
