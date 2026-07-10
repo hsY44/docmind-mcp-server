@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docmind.mcp.domain.Document;
 import com.docmind.mcp.repository.DocumentRepository;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.RequiredArgsConstructor;
 
@@ -72,9 +73,12 @@ public class DocumentService {
 				+ (end < content.length() ? "…" : "");
 	}
 
-	public record SearchResult(Long id, String title, String tags, LocalDateTime createdAt, String snippet) {}
-	public record DocumentDetail(Long id, String title, String content, String tags, LocalDateTime createdAt) {}
-	public record DocumentSummary(Long id, String title, String tags, LocalDateTime createdAt) {}
+	public record SearchResult(Long id, String title, String tags,
+			@JsonFormat(shape = JsonFormat.Shape.STRING) LocalDateTime createdAt, String snippet) {}
+	public record DocumentDetail(Long id, String title, String content, String tags,
+			@JsonFormat(shape = JsonFormat.Shape.STRING) LocalDateTime createdAt) {}
+	public record DocumentSummary(Long id, String title, String tags,
+			@JsonFormat(shape = JsonFormat.Shape.STRING) LocalDateTime createdAt) {}
 	public record DocumentList(List<DocumentSummary> documents, long total) {}
 	public record SavedDocument(Long id, String title) {}
 }
