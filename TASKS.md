@@ -27,6 +27,5 @@ Working task list. Claude: mark items `[x]` when done, add discovered tasks unde
 - [x] README.md (architecture diagram, setup, tool docs, demo GIF)
 
 ## Backlog (not now)
-- Testcontainers integration tests
 - Auth for remote deployment
 - Deployment (Docker + cloud)
