@@ -16,3 +16,8 @@ spring:
     hibernate:
       ddl-auto: update
     open-in-view: false
+
+docmind:
+  mcp:
+    # 로컬 개발 기본값 — 원격 배포 시 반드시 DOCMIND_MCP_API_KEY 환경변수로 교체
+    api-key: ${DOCMIND_MCP_API_KEY:local-dev-api-key}

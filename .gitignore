@@ -13,6 +13,9 @@ application-local.yml
 ### Review logs (local only) ###
 .claude/reviews/
 
+### Local Claude Code settings (per-developer) ###
+.claude/settings.local.json
+
 ### STS ###
 .apt_generated
 .classpath

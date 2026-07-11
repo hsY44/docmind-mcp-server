@@ -86,16 +86,17 @@ docmind-rag, not here. This server owns raw document storage and keyword retriev
 | DB | PostgreSQL | shared choice across docmind projects |
 | Tool registration | `@Tool` methods + `ToolCallbackProvider` bean | Spring AI convention |
 | Search (v1) | SQL `ILIKE` keyword search | deterministic, no embedding dependency; FTS/tsvector only if demo needs it |
-| Auth | none in v1 (local dev) | revisit before deployment |
+| Auth | `X-API-Key` header, `Filter` + constant-time compare (`config/ApiKeyAuthFilter`), scoped to `/mcp/*` | single fixed client (docmind-rag) — Basic Auth needs a new `spring-security` dependency for the same shared-secret guarantee, OAuth2 client-credentials solves a multi-client/centralized-identity problem this project doesn't have and Spring AI has no built-in token-refresh support for it |
 
 ## Out of Scope (v1)
 - Embeddings / vector search (docmind-rag's job)
 - File upload parsing (PDF etc.) — plain text/markdown only
-- Multi-tenant, auth, rate limiting
+- Multi-tenant, rate limiting
 - Update/delete tools — add only if docmind-rag needs them
 
 ## Verification
 - Manual: MCP Inspector (`npx @modelcontextprotocol/inspector`) against `http://localhost:8080/mcp`
+  — add an `X-API-Key` custom header (see Key Decisions: Auth) or every call returns 401
 - Automated: JUnit tests per service method; Testcontainers integration tests (backlog)
 - Definition of done per phase: see TASKS.md — a phase is done only when its verify steps pass
 

@@ -66,7 +66,9 @@ PostgreSQL (document metadata + content)
    ./gradlew bootRun
    ```
 
-MCP 엔드포인트: `http://localhost:8080/mcp`
+MCP 엔드포인트: `http://localhost:8080/mcp` — 모든 요청에 `X-API-Key` 헤더 필요
+(`.env`/`application.yml`의 `docmind.mcp.api-key` 참고, 로컬 개발 기본값은 `local-dev-api-key`).
+MCP Inspector 등 외부 클라이언트로 접속할 때는 커스텀 헤더 설정에 이 값을 추가해야 한다.
 
 ## 데모 데이터
 샘플 문서 데이터를 시드 (앱을 한 번 부팅해서 스키마가 생성된 이후에 실행):
