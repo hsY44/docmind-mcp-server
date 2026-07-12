@@ -17,4 +17,15 @@ INSERT INTO document (title, content, tags, created_at) VALUES
    'spring,ai,mcp', now()),
   ('JPA and Hibernate Notes',
    'JPA maps Java entities to relational tables, and Hibernate is the default provider in Spring Boot. Transactions demarcated with @Transactional keep persistence operations atomic, while a repository abstraction hides the boilerplate of loading and saving entities.',
-   'java,database', now());
+   'java,database', now()),
+  -- 한국어 문서: docmind-rag의 임베딩 모델(nomic-embed-text)이 영어 중심이라
+  -- 한국어 질문 데모는 한국어 문서가 있어야 검색 품질이 나온다
+  ('스프링 부트 프로파일로 환경 분리하기',
+   '스프링 부트는 프로파일 기능으로 로컬, 개발, 운영 환경 설정을 분리한다. application-local.yml처럼 프로파일별 설정 파일을 만들고 spring.profiles.active로 활성화하면, 같은 코드로 환경마다 다른 데이터베이스나 모델 설정을 쓸 수 있다.',
+   'spring,java', now()),
+  ('RAG 파이프라인의 기본 구조',
+   'RAG(검색 증강 생성)는 문서를 청크로 나누고 임베딩해 벡터 저장소에 넣은 뒤, 질문과 유사한 청크를 검색해 LLM 프롬프트에 컨텍스트로 넣는 구조다. 검색 품질이 답변 품질을 좌우하므로 청킹 전략과 임베딩 모델 선택이 중요하다.',
+   'ai,rag', now()),
+  ('pgvector로 유사도 검색하기',
+   'pgvector는 PostgreSQL에서 벡터 타입과 유사도 연산을 지원하는 확장이다. 코사인 거리 기반 최근접 탐색을 SQL로 실행할 수 있고, HNSW 인덱스를 만들면 대량 데이터에서도 빠른 근사 검색이 가능하다.',
+   'database,postgres,ai', now());

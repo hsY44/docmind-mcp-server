@@ -2,6 +2,7 @@ package com.docmind.mcp.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,11 +33,10 @@ public class DocumentService {
 				.toList();
 	}
 
-	public DocumentDetail get(Long id) {
+	public Optional<DocumentDetail> get(Long id) {
 		return repository.findById(id)
 				.map(d -> new DocumentDetail(d.getId(), d.getTitle(), d.getContent(),
-						d.getTags(), d.getCreatedAt()))
-				.orElse(null);
+						d.getTags(), d.getCreatedAt()));
 	}
 
 	public DocumentList list(String tag, int page, int size) {

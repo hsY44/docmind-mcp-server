@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.util.function.Supplier;
 
 import com.docmind.mcp.service.DocumentService;
-import com.docmind.mcp.service.DocumentService.DocumentDetail;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,10 +48,9 @@ public class DocumentTools {
 
 	@Tool(description = "Get a single document by id, including its full content.")
 	Object getDocument(@ToolParam(description = "Document id") Long id) {
-		return run("getDocument", () -> {
-			DocumentDetail doc = service.get(id);
-			return doc != null ? doc : "No document found with id " + id;
-		});
+		return run("getDocument", () -> service.get(id)
+				.map(Object.class::cast)
+				.orElse("No document found with id " + id));
 	}
 
 	@Tool(description = "List documents, optionally filtered by tag, with pagination. Never returns content.")

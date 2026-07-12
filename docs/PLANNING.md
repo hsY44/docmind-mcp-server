@@ -9,7 +9,7 @@ Portfolio narrative: "designed, built, and deployed a custom MCP server consumed
 ## Tech Stack
 - Java 21, Spring Boot 3.5.16, Gradle (Groovy)
 - Spring AI 1.1.8 — `spring-ai-starter-mcp-server-webmvc`
-- PostgreSQL, Spring Data JPA, Lombok, Validation
+- PostgreSQL, Spring Data JPA, Lombok, Actuator (health check)
 
 ## Commands
 ```bash
@@ -59,7 +59,7 @@ the LLM can act on (e.g. "No document found with id 42").
 - `limit` (int, optional, default 10, max 50)
 - Returns: list of `{id, title, tags, createdAt, snippet}` — snippet is a short excerpt
   around the match, NOT full content
-- Empty result → return empty list with message "No documents matched."
+- Empty result → returns the string "No documents matched." (message only, not a list)
 
 ### `getDocument(id)`
 - `id` (Long, required)
@@ -67,7 +67,9 @@ the LLM can act on (e.g. "No document found with id 42").
 - Not found → "No document found with id {id}"
 
 ### `listDocuments(tag, page, size)`
-- `tag` (String, optional): exact tag filter
+- `tag` (String, optional): substring match against the comma-separated tags column,
+  case-insensitive (e.g. "java" also matches "javascript") — upgrade to exact tag match
+  only if this becomes a problem
 - `page` (int, default 0), `size` (int, default 20, max 50)
 - Returns: list of `{id, title, tags, createdAt}` + total count. Never returns content.
 
@@ -95,6 +97,7 @@ docmind-rag, not here. This server owns raw document storage and keyword retriev
 - Update/delete tools — add only if docmind-rag needs them
 
 ## Verification
+- Liveness: `curl http://localhost:8080/actuator/health` (actuator; not behind the API-key filter, which only covers `/mcp/*`)
 - Manual: MCP Inspector (`npx @modelcontextprotocol/inspector`) against `http://localhost:8080/mcp`
   — add an `X-API-Key` custom header (see Key Decisions: Auth) or every call returns 401
 - Automated: JUnit tests per service method; Testcontainers integration tests (backlog)
